@@ -15,7 +15,7 @@ echo "Loading environment for p99 IOC Instances and Services ..."
 
 export EC_CLI_BACKEND="K8S"
 # the namespace to use for kubernetes deployments
-export EC_TARGET=kiw94553
+export EC_TARGET=p99-beamline
 # the git repo for this project
 export EC_SERVICES_REPO=https://github.com/MaxHerbs/p99-services
 # declare your centralised log server Web UI
@@ -38,10 +38,10 @@ source <(ec --show-completion ${SHELL})
 
 # the following configures kubernetes inside DLS.
 
-module unload pollux > /dev/null
-module load pollux > /dev/null
+module unload k8s-p99 > /dev/null
+module load k8s-p99 > /dev/null
 # set the default namespace for kubectl and helm (for convenience only)
-kubectl config set-context --current --namespace=kiw94553
+kubectl config set-context --current --namespace=k8s-p99
 # make sure the user has provided credentials
 kubectl version
 
