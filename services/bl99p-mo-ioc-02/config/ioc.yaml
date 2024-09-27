@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=https://github.com/MaxHerbs/ioc-positioner/releases/download/2024.9.2/ibek.ioc.schema.json
+
+# TODO replace above with the generic IOC schema this IOC is based on
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: REPLACE WITH DESCRIPTION
+
+entities:
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: GMT0BST
+
+  - type: devIocStats.iocAdminSoft
+    IOC: "{{ ioc_name | upper }}"
+
+  # - todo: Add more entities to make a meaningful IOC
+
+
+
+# Does pmac need more support modules?
+
+  # - type: pmac.pmacMonitorVariables
+  #   Controller: BRICK01
+  #   Variables: P4800 P4805 P4806 P4804 P4905 P4900 P4906 P4904
+  #   name: pVars
+
+  # - type: pmac.pmacMonitorVariables
+  #   Controller: BRICK01
+  #   Variables: '&2Q20 &2Q21 &2Q22'
+  #   name: qVars
+
+  - type: positioner.multipositioner
+    DESC: Filter Wheel
+    MP: :MP
+    P: BL99P-MO-STAGE-02
+    STRA: Empty
+    STRB: Mn 5um
+    STRC: Fe (empty)
+    STRD: Co 5um
+    STRE: Ni 5um
+    STRF: Cu 5um
+    STRG: Zn 5um
+    STRH: Zr (empty)
+    STRI: Mo (empty)
+    STRJ: Rh (empty)
+    STRK: Pd (empty)
+    STRL: Ag (empty)
+    STRM: Cd 25um
+    STRN: W (empty)
+    STRO: Pt (empty)
+    STRP: User
+    gda_desc: Filter Select
+    gda_name: SAM2
+    name: SAM2.MP
+
+  - type: positioner.motorpositioner
+    DESC: Filter Motor
+    EGU: mm
+    MP: SAM2.MP
+    PREC: 1
+    P: BL99P-MO-STAGE-02
+    Q: :P
+    VALA: 0
+    VALB: 0.1
+    VALC: 0.2
+    VALD: 0.3
+    VALE: 0.4
+    VALF: 0.5
+    VALG: 0.6
+    VALH: 0.7
+    VALI: 0.8
+    VALJ: 0.9
+    VALK: 1
+    VALL: 1.1
+    VALM: 1.2
+    VALN: 1.3
+    VALO: 1.41
+    VALP: 1.5
+    motor: SAM2.Z
+    pos: SAM2.MP
