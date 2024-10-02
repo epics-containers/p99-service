@@ -49,8 +49,6 @@ entities:
     STRN: W (empty)
     STRO: Pt (empty)
     STRP: User
-    gda_desc: Filter Select
-    gda_name: SAM2
     name: SAM2.MP
 
   - type: positioner.motorpositioner
