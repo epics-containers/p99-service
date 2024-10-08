@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=/epics/ibek-defs/adandor.ibek.support.yaml
+
+# TODO replace above with the generic IOC schema this IOC is based on
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: REPLACE WITH DESCRIPTION
+
+entities:
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: GMT0BST
+
+  - type: devIocStats.iocAdminSoft
+    IOC: "{{ ioc_name | upper }}"
+
+
+  - type: epics.EpicsEnvSet
+    name: EPICS_TS_MIN_WEST
+    value: '0'
+    
+  - type: epics.EpicsCaMaxArrayBytes
+    max_bytes: 9000000
+
+  - type: ADAndor.andorCCD
+    ADDR: 0
+    BUFFERS: 2000
+    INSTALLPATH: |-
+      /epics/support/andorCCDSDK/andorCCDSDKApp/src/sdk/andor/etc/
+    P: BL99P-EA-DET-03
+    PORT: DET3.cam
+    R: ':CAM:'
+    TIMEOUT: 1
+
+  - type: ADCore.NDPosPlugin
+    ADDR: 0
+    BLOCK: 0
+    ENABLED: 1
+    NDARRAY_PORT: DET3.cam
+    P: BL99P-EA-DET-03
+    PORT: DET3.pos
+    QUEUE: 1000
+    R: ':POS:'
+    TIMEOUT: 1
