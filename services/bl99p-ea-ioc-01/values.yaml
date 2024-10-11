@@ -29,7 +29,7 @@ ioc-instance:
     - name: LD_LIBRARY_PATH
       value: /data/prefix/lib
     - name: BITFLOW_INSTALL_DIRS
-      value: /data/hello/prefix/bf
+      value: /data/prefix/bf
 
   # NOTE: the following are suggestions to help with debugging IOCs
   # 1. replace the runtime container with the developer version
