@@ -1,6 +1,27 @@
 # yaml-language-server: $schema=https://github.com/epics-containers/ec-helm-charts/releases/download/3.4.4/ioc-instance.schema.json#/$defs/service
 ioc-instance:
-  image: REPLACE_WITH_IMAGE_URI
+  image: ghcr.io/epics-containers/ioc-adandor3-runtime:2024.10.1
+
+  # mount a pvc with the andor3 sdk libraries
+  pvClaims:
+    - name: sdklibs
+      claimName: p99-ea-ioc-01-libraries
+      mountPath: /data
+      subPath: .
+
+  dataVolume:
+    pvc: false
+    hostPath: /dls/p99/data
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 512Mi
+      diamond.ac.uk/andor3pci: 1
+    requests:
+      cpu: 500m
+      memory: 128Mi
+      diamond.ac.uk/andor3pci: 1
 
   # NOTE: the following are suggestions to help with debugging IOCs
   # 1. replace the runtime container with the developer version
