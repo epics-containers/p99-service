@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://github.com/epics-containers/ec-helm-charts/releases/download/3.4.4/ioc-instance.schema.json#/$defs/service
 ioc-instance:
-  image: gcr.io/diamond-privreg/controls/work/iocs/ioc-adandor-linux-runtime:2024.10.1
+  image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-runtime:2024.10.2 
 
   dataVolume:
     pvc: false
@@ -10,11 +10,11 @@ ioc-instance:
     limits:
       cpu: 2
       memory: 512Mi
-      diamond.ac.uk/andorUSB: 1
+      diamond.ac.uk/andor2usb: 1
     requests:
       cpu: 500m
       memory: 128Mi
-      diamond.ac.uk/andorUSB: 1
+      diamond.ac.uk/andor2usb: 1
 
   # NOTE: the following are suggestions to help with debugging IOCs
   # 1. replace the runtime container with the developer version
