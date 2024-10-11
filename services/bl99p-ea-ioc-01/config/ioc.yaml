@@ -6,13 +6,12 @@ ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 description: REPLACE WITH DESCRIPTION
 
 entities:
-
   - type: epics.EpicsEnvSet
     name: EPICS_TS_MIN_WEST
-    value: '0'
+    value: "0"
 
   - type: devIocStats.iocAdminSoft
-    IOC: '{{ ioc_name | upper }}'
+    IOC: "{{ ioc_name | upper }}"
 
   - type: epics.EpicsCaMaxArrayBytes
     max_bytes: 9000000
@@ -22,15 +21,14 @@ entities:
     BUFFERS: 50000
     P: BL99P-EA-DET-01
     PORT: ZYLA.CAM
-    R: ':CAM:'
+    R: ":CAM:"
     SCANRATE: .1 second
-    SET_SDK_ENV: 'True'
+    SET_SDK_ENV: "True"
     TIMEOUT: 1
-    ANDOR_SDK3: -|
-      SDK PATH HERE
+    ANDOR_SDK3: /data
 
   - type: ADCore.NDPosPlugin
     NDARRAY_PORT: ZYLA.CAM
     P: BL99P-EA-DET-01
     PORT: POS
-    R: ':POS:'
+    R: ":POS:"
