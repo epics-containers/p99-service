@@ -41,7 +41,7 @@ source <(ec --show-completion ${SHELL})
 module unload k8s-p99 > /dev/null
 module load k8s-p99 > /dev/null
 # set the default namespace for kubectl and helm (for convenience only)
-kubectl config set-context --current --namespace=k8s-p99
+kubectl config set-context --current --namespace=p99-beamline
 # make sure the user has provided credentials
 kubectl version
 
