@@ -8,8 +8,8 @@ global:
 ioc-instance:
   # useHostNetwork - use host network for IOC - required for Channel Access
   # to work outside of the cluster
-  hostNetwork: true
+  hostNetwork: false
 
-  securityContext:
-    runAsUser: 37993
-    runAsGroup: 37993
+  # securityContext:
+  #   runAsUser: 37993
+  #   runAsGroup: 37993

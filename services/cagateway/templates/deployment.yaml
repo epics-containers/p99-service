@@ -15,6 +15,7 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      serviceAccountName: default-full-access-mounted
       containers:
         - command:
            - bash
