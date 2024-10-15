@@ -17,9 +17,9 @@ entities:
     max_bytes: 9000000
 
   - type: ADAndor3.andor3
-    BUFFERS: 50000
+    BUFFERS: 50
     P: BL99P-EA-DET-01
-    PORT: ZYLA.CAM
+    PORT: DET1.CAM
     R: ":CAM:"
     SCANRATE: .1 second
     SET_SDK_ENV: "True"
