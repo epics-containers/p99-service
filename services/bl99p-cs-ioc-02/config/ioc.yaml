@@ -25,15 +25,6 @@ entities:
     IOC: BL99P-CS-IOC-02
     name: IOC-STATS
 
-  - type: autosave.Autosave
-    bl: true
-    iocName: BL99P-CS-IOC-02
-    path: /dls_sw/p99/epics/autosave
-    debug: 0
-    skip_1: false
-    server: None
-    ip: None
-    name: ""
 
   - type: terminalServer.Moxa
     HOST: bl99p-nt-tserv-01
