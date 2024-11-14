@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-andor2
+  labels:
+    is_ioc: "true"
+spec:
+  serviceAccountName: default-full-access-mounted
+  containers:
+    - name: debug-andor2
+      image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-developer:2024.10.2
+      command:
+        - bash
+      args:
+        - "-c"
+        - |
+          echo "keep running indefinetely"
+          while true; do sleep 5; done
+      resources:
+        limits:
+          memory: "2Gi"
+          cpu: "1"
+          diamond.ac.uk/andor2usb: 1
+        requests:
+          memory: "1Gi"
+          cpu: "500m"
+          diamond.ac.uk/andor2usb: 1
+
+      # securityContext:
+      #   privileged: true
+      #   allowPrivilegeEscalation: true
+
+      volumeMounts:
+        - mountPath: /dev/bus/usb/
+          name: devices
+
+  volumes:
+    - name: devices
+      persistentVolumeClaim:
+        claimName: dev-usb
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - bl99p-ea-serv-01.diamond.ac.uk
