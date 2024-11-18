@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: debug-andor2
+  name: debug-andor3
   labels:
     is_ioc: "true"
 spec:
   serviceAccountName: default-full-access-mounted
   containers:
-    - name: debug-andor2
-      image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-developer:2024.10.2
+    - name: debug-andor3
+      image: ghcr.io/epics-containers/ioc-adandor3-developer:2024.10.2b4
       command:
         - bash
       args:
@@ -20,24 +20,29 @@ spec:
         limits:
           memory: "2Gi"
           cpu: "1"
-          diamond.ac.uk/andor2usb: 1
+          diamond.ac.uk/andor3pci: 1
         requests:
           memory: "1Gi"
           cpu: "500m"
-          diamond.ac.uk/andor2usb: 1
+          diamond.ac.uk/andor3pci: 1
 
-      # securityContext:
-      #   privileged: true
-      #   allowPrivilegeEscalation: true
+      securityContext:
+        privileged: true
+        allowPrivilegeEscalation: true
 
       volumeMounts:
         - mountPath: /dev/bus/usb/
           name: devices
+        - mountPath: /data
+          name: sdklibs
 
   volumes:
     - name: devices
       persistentVolumeClaim:
         claimName: dev-usb
+    - name: sdklibs
+      persistentVolumeClaim:
+        claimName: p99-ea-ioc-01-libraries
 
   affinity:
     nodeAffinity:

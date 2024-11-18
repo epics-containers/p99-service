@@ -5,6 +5,10 @@ metadata:
   labels:
     is_ioc: "true"
 spec:
+  # NOTE: for best debug experience, set hostNetwork to false
+  # OR: to be able to see the PVs outside the cluster set to true
+  hostNetwork: true
+  runtimeClassName: usb-compat
   serviceAccountName: default-full-access-mounted
   containers:
     - name: debug-andor2
@@ -12,6 +16,9 @@ spec:
       command:
         - bash
       args:
+        # use this value to automatically start the IOC
+        # - "/epics/ioc/start.sh"
+        # use this value to keep the container running indefinetely for debugging
         - "-c"
         - |
           echo "keep running indefinetely"
@@ -31,13 +38,19 @@ spec:
       #   allowPrivilegeEscalation: true
 
       volumeMounts:
-        - mountPath: /dev/bus/usb/
-          name: devices
+        #       - mountPath: /dev/bus/usb/
+        #         name: devices
+        - mountPath: /epics/ioc/config
+          name: config-volume
 
   volumes:
-    - name: devices
-      persistentVolumeClaim:
-        claimName: dev-usb
+    #   - name: devices
+    #     persistentVolumeClaim:
+    #       claimName: dev-usb
+    - configMap:
+        defaultMode: 420
+        name: bl99p-ea-ioc-05-config
+      name: config-volume
 
   affinity:
     nodeAffinity:
@@ -48,3 +61,29 @@ spec:
                 operator: In
                 values:
                   - bl99p-ea-serv-01.diamond.ac.uk
+# Embed the ioc.yaml as a config map -------------------------------------------
+# NOTE: update this text by running the following command and extracting the
+# ConfigMap section:
+#   helm template bl99p-ea-ioc-05 services/bl99p-ea-ioc-05/ --values=services/values.yaml                                                        [7:45:31]
+---
+# Source: ec-service/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bl99p-ea-ioc-05-config
+  labels:
+    app: bl99p-ea-ioc-05
+data:
+  # contents of the ioc instance config folder
+  ioc.yaml: "# yaml-language-server: $schema=/epics/ibek-defs/adandor.ibek.support.yaml\n\n#
+    TODO replace above with the generic IOC schema this IOC is based on\nioc_name: \"{{
+    _global.get_env('IOC_NAME') }}\"\n\ndescription: REPLACE WITH DESCRIPTION\n\nentities:\n
+    \ - type: epics.EpicsEnvSet\n    name: EPICS_TZ\n    value: GMT0BST\n\n  - type:
+    devIocStats.iocAdminSoft\n    IOC: \"{{ ioc_name | upper }}\"\n\n\n  - type: epics.EpicsEnvSet\n
+    \   name: EPICS_TS_MIN_WEST\n    value: '0'\n    \n  - type: epics.EpicsCaMaxArrayBytes\n
+    \   max_bytes: 9000000\n\n  - type: ADAndor.andorCCD\n    ADDR: 0\n    BUFFERS:
+    2000\n    INSTALLPATH: |-\n      /epics/support/andorCCDSDK/andorCCDSDKApp/src/sdk/andor/etc/\n
+    \   P: BL99P-EA-DET-03\n    PORT: DET3.cam\n    R: ':CAM:'\n    TIMEOUT: 1\n\n  -
+    type: ADCore.NDPosPlugin\n    ADDR: 0\n    BLOCK: 0\n    ENABLED: 1\n    NDARRAY_PORT:
+    DET3.cam\n    P: BL99P-EA-DET-03\n    PORT: DET3.pos\n    QUEUE: 1000\n    R: ':POS:'\n
+    \   TIMEOUT: 1"
