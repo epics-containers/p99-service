@@ -1,6 +1,6 @@
-# yaml-language-server: $schema=https://github.com/epics-containers/ec-helm-charts/releases/download/4.1.2/ioc-instance.schema.json#/$defs/service
+# yaml-language-server: $schema=https://github.com/epics-containers/ec-helm-charts/releases/download/4.1.3+b2/ioc-instance.schema.json#/$defs/service
 ioc-instance:
-  image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-runtime:2024.10.2
+  image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-developer:2024.10.2
 
   dataVolume:
     pvc: false
@@ -15,6 +15,12 @@ ioc-instance:
       cpu: 500m
       memory: 128Mi
       diamond.ac.uk/andor2usb: 1
+
+  # customize the pod spec adding the USB compatibilty runtime
+  #   mounts /dev/bus/usb into all containera
+  #   gives cgroup access to the USB devices
+  podSpec:
+    runtimeClassName: usb-compat
 
   # NOTE: the following are suggestions to help with debugging IOCs
   # 1. replace the runtime container with the developer version
