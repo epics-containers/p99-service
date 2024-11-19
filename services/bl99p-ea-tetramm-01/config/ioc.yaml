@@ -17,3 +17,16 @@ entities:
     PORTPREFIX: XBPM1
     STAT_NCHAN: 1000
     STAT_XSIZE: 10000
+
+  - type: ADCore.NDFileHDF5
+    ADDR: 0
+    BLOCK: 0
+    ENABLED: 1
+    NDARRAY_PORT: XBPM1.DRV
+    P: BL99P-EA-XBPM-01
+    PORT: XBPM1.pos
+    QUEUE: 1000
+    R: ':HDF5:'
+    TIMEOUT: 1
+
+

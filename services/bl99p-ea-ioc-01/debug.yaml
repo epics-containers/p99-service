@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-andor3
+  labels:
+    is_ioc: "true"
+spec:
+  serviceAccountName: default-full-access-mounted
+  containers:
+    - name: debug-andor3
+      image: ghcr.io/epics-containers/ioc-adandor3-developer:2024.10.2b4
+      command:
+        - bash
+      args:
+        - "-c"
+        - |
+          echo "keep running indefinetely"
+          while true; do sleep 5; done
+      resources:
+        limits:
+          memory: "2Gi"
+          cpu: "1"
+          diamond.ac.uk/andor3pci: 1
+        requests:
+          memory: "1Gi"
+          cpu: "500m"
+          diamond.ac.uk/andor3pci: 1
+
+      securityContext:
+        privileged: true
+        allowPrivilegeEscalation: true
+
+      volumeMounts:
+        - mountPath: /dev/bus/usb/
+          name: devices
+        - mountPath: /data
+          name: sdklibs
+
+  volumes:
+    - name: devices
+      persistentVolumeClaim:
+        claimName: dev-usb
+    - name: sdklibs
+      persistentVolumeClaim:
+        claimName: p99-ea-ioc-01-libraries
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - bl99p-ea-serv-01.diamond.ac.uk

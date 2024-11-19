@@ -13,3 +13,7 @@ ioc-instance:
   securityContext:
     runAsUser: 37993
     runAsGroup: 37993
+
+  dataVolume:
+    pvc: false
+    hostPath: /dls/p99/data
