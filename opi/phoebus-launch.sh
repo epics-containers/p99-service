@@ -8,9 +8,9 @@ workspace=$(realpath ${thisdir}/..)
 if module load phoebus 2>/dev/null; then
     echo "Using phoebus module"
 
-    # settings for p47
+    # settings for p99
     settings="
-    -resource ${workspace}/opi/p47-beamline.opi
+    -resource ${workspace}/opi/p99-beamline.opi
     -settings ${workspace}/opi/settings.ini
     "
 
@@ -52,9 +52,9 @@ else
     -v=${workspace}:/workspace
     "
 
-    # settings for p47
+    # settings for p99
     settings="
-    -resource /workspace/opi/p47-beamline.opi
+    -resource /workspace/opi/p99-beamline.opi
     -settings /workspace/opi/settings.ini
     "
 
