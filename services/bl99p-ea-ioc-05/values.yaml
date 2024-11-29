@@ -2,7 +2,7 @@
 ioc-instance:
   # Developer image is used rather than runtime image due to issue mounting USB device
   # To be investigated at a later date
-  image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-developer:2024.11.1
+  image: gcr.io/diamond-privreg/controls/prod/iocs/ioc-adandor-linux-developer:2024.11.2
 
   dataVolume:
     pvc: false

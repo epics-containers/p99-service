@@ -28,5 +28,3 @@ entities:
     QUEUE: 1000
     R: ':HDF5:'
     TIMEOUT: 1
-
-
