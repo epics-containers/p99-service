@@ -41,9 +41,6 @@ spec:
             allowPrivilegeEscalation: false
           stdin: true
           tty: true
-          volumeMounts:
-          - name: config-volume
-            mountPath: /config
         - name: "{{ .Release.Name }}-pva-gateway"
           command:
            - bash
@@ -68,14 +65,7 @@ spec:
             allowPrivilegeEscalation: false
           stdin: true
           tty: true
-          volumeMounts:
-          - name: config-volume
-            mountPath: /config
       hostNetwork: false
       restartPolicy: Always
       terminationGracePeriodSeconds: 1
-      volumes:
-        - name: config-volume
-          configMap:
-            name: "{{ .Release.Name }}-config"
 
