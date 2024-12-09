@@ -1,6 +1,5 @@
 # yaml-language-server: $schema=https://github.com/epics-containers/ioc-pmac/releases/download/2024.1.2/ibek.ioc.schema.json
 
-
 # TODO replace above with the generic IOC schema this IOC is based on
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 
@@ -13,18 +12,6 @@ entities:
 
   - type: devIocStats.iocAdminSoft
     IOC: "{{ ioc_name | upper }}"
-
-  # - todo: Add more entities to make a meaningful IOC
-  
-  - type: epics.EpicsEnvSet
-    name: EPICS_TS_MIN_WEST
-    value: '0'
-
-  - type: devIocStats.iocAdminSoft
-    IOC: '{{ ioc_name | upper }}'
-
-  - type: epics.EpicsCaMaxArrayBytes
-    max_bytes: 32000000
 
   # - type: utility.pingWait
   #   ip: 10.177.2.1
@@ -40,6 +27,8 @@ entities:
     name: BRICK01
     pmacAsynPort: BRICK01PORT
 
+  # it looks like running in a container demos a race condition in the
+  # trajectory control startup.
   - type: pmac.GeoBrickTrajectoryControl
     NPOINTS: 100000
     PmacController: BRICK01
@@ -256,7 +245,7 @@ entities:
     P: BL99P-MO-STAGE-01
     PORT: BRICK01
     Q: :WRITETHETA
-    VAR: '&2Q21'
+    VAR: "&2Q21"
     VARIABLE_PREC: 4
 
   - type: pmac.pmacVariableWrite
@@ -264,7 +253,7 @@ entities:
     P: BL99P-MO-STAGE-01
     PORT: BRICK01
     Q: :WRITEPITCH
-    VAR: '&2Q20'
+    VAR: "&2Q20"
     VARIABLE_PREC: 4
 
   - type: pmac.pmacVariableWrite
@@ -272,5 +261,5 @@ entities:
     P: BL99P-MO-STAGE-01
     PORT: BRICK01
     Q: :WRITEROLL
-    VAR: '&2Q22'
+    VAR: "&2Q22"
     VARIABLE_PREC: 4
