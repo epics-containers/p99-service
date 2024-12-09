@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      serviceAccountName: default-full-access-mounted
+      containers:
+        - name: {{ .Release.Name }}-ca-gateway
+          command:
+           - bash
+          args:
+           - "/config/start-ca.sh"
+          env:
+            # IMPORTANT - set this to YES for net=host or NO for internal network
+            - name: EPICS_CA_AUTO_ADDR_LIST
+              value: "YES"
+            - name: CA_SERVER_PORT
+              value: "9064"
+          image: {{ .Values.image }}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 800m
+              memory: 1500Mi
+            requests:
+              cpu: 200m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          stdin: true
+          tty: true
+          volumeMounts:
+          - name: config-volume
+            mountPath: /config
+        - name: "{{ .Release.Name }}-pva-gateway"
+          command:
+           - bash
+          args:
+           - "/config/start-pva.sh"
+          env:
+            # IMPORTANT - set this to YES for net=host or NO for internal network
+            - name: EPICS_PVA_AUTO_ADDR_LIST
+              value: "YES"
+            - name: PVA_SERVER_PORT
+              value: "9065"
+          image: {{ .Values.image }}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 800m
+              memory: 1500Mi
+            requests:
+              cpu: 200m
+              memory: 400Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          stdin: true
+          tty: true
+          volumeMounts:
+          - name: config-volume
+            mountPath: /config
+      hostNetwork: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 1
+      volumes:
+        - name: config-volume
+          configMap:
+            name: "{{ .Release.Name }}-config"
+
