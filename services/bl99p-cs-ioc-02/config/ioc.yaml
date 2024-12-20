@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-terminalserver/releases/download/2024.10.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-terminalserver/releases/download/2024.12.1/ibek.ioc.schema.json
 
 # TODO replace above with the generic IOC schema this IOC is based on
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
@@ -7,28 +7,30 @@ description: REPLACE WITH DESCRIPTION
 
 entities:
   - type: epics.EpicsEnvSet
-    name: EPICS_TZ
-    value: GMT0BST
+    name: EPICS_TS_MIN_WEST
+    value: '0'
 
   - type: devIocStats.iocAdminSoft
-    IOC: "{{ ioc_name | upper }}"
-
-  # - todo: Add more entities to make a meaningful IOC
-
+    IOC: '{{ ioc_name | upper }}'
 
   - type: epics.EpicsEnvSet
     name: IOCSH_PS1
-    value: BL99P-CS-IOC-02>
+    value: BL99P-CS-IOC-02
 
-  - type: devIocStats.devIocStatsHelper
-    ioc: BL99P-CS-IOC-02 # TODO: why does this want both?
-    IOC: BL99P-CS-IOC-02
-    name: IOC-STATS
+  # - type: devIocStats.devIocStatsHelper
+  #   ioc: BL99P-CS-IOC-02
+  #   IOC: BL99P-CS-IOC-02
+  #   name: IOC-STATS
 
+  # - type: autosave.Autosave
+  #   bl: 'True'
+  #   iocName: BL99P-CS-IOC-02
+  #   path: /dls_sw/p99/epics/autosave
 
-  - type: terminalServer.Moxa
+  - type: terminalServer.Moxa16
     HOST: bl99p-nt-tserv-01
     NCHANS: 16
     P: BL99P-NT-TSERV-01
     R: ''
     name: TSERV-01
+
